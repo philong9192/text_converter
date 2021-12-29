@@ -46,12 +46,12 @@ const fixSoDienThoai = (text) => {
 	let dataFixed = "";
 	
 	dataFixed = text.replace(/đ/g, "");
-	dataFixed = text.replace(/st:/g, "");
+	dataFixed = dataFixed.replace(/st:/g, "");
+	dataFixed = dataFixed.replace(/St:/g, "");
 	dataFixed = dataFixed.replace(/\./g, "");
 	dataFixed = dataFixed.replace(/\,/g, "");
 	dataFixed = dataFixed.replace(/ /g, "");
 	dataFixed = dataFixed.replace(/-/g, "");
-	// dataFixed = dataFixed.replace(/hoặc/g, "");
 	dataFixed = dataFixed.replace(/St/g, "");
 	dataFixed = dataFixed.replace(/\*/g, "");
 
@@ -89,6 +89,12 @@ const fixSoDienThoai = (text) => {
 
 	if (arrDataFixed3.length == 2) {
 		dataFixed = arrDataFixed3[0];
+	}
+
+	const arrDataFixed4 = dataFixed.split('hoặc');
+
+	if (arrDataFixed4.length == 2) {
+		dataFixed = arrDataFixed4[0];
 	}
 
 	if (dataFixed.startsWith('84')) {
