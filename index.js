@@ -97,6 +97,30 @@ const fixSoDienThoai = (text) => {
 		dataFixed = arrDataFixed4[0];
 	}
 
+	const arrDataFixed5 = dataFixed.split('Hoặc');
+
+	if (arrDataFixed5.length == 2) {
+		dataFixed = arrDataFixed5[0];
+	}
+
+	const arrDataFixed6 = dataFixed.split('HOẶC');
+
+	if (arrDataFixed6.length == 2) {
+		dataFixed = arrDataFixed6[0];
+	}
+
+	const arrDataFixed7 = dataFixed.split('vs');
+
+	if (arrDataFixed7.length == 2) {
+		dataFixed = arrDataFixed7[0];
+	}
+
+	const arrDataFixed8 = dataFixed.split('D');
+
+	if (arrDataFixed8.length == 2) {
+		dataFixed = arrDataFixed8[0];
+	}
+
 	if (dataFixed.startsWith('84')) {
 		dataFixed = dataFixed.replace("84", "0");
 	}
