@@ -54,6 +54,10 @@ const fixSoDienThoai = (text) => {
 	dataFixed = dataFixed.replace(/-/g, "");
 	dataFixed = dataFixed.replace(/St/g, "");
 	dataFixed = dataFixed.replace(/\*/g, "");
+	
+	dataFixed = dataFixed.replace(/sốn/g, "");
+	dataFixed = dataFixed.replace(/h0ặc/g, "");
+	dataFixed = dataFixed.replace(/D14:D/g, "");
 
 	if (dataFixed.startsWith('\`')) {
 		dataFixed = dataFixed.replace('\`', "");
