@@ -8,8 +8,9 @@ const __dirname = path.resolve();
 const fs2 = fs.promises;
 
 const TYPE = {
-	FIX_SO_DIEN_THOAI: 0,
-	FIX_KHONG_NHAY_DONG: 1,
+	FIX_SO_DIEN_THOAI: 0, //Sửa lỗi số điện thoại
+	FIX_KHONG_NHAY_DONG: 1, // Sửa lỗi toàn bộ dữ liệu trong 1 ô
+	FIX_SAN_PHAM: 2, //Sửa lỗi sản phẩm nhảy xuống các dòng trắng bên dưới
 }
 
 /* ---------------------- NHAP DU LIEU TU DAY ---------------------- */
@@ -18,8 +19,9 @@ const __DATA = `
 
 `
 
-const type = TYPE.FIX_SO_DIEN_THOAI
+//const type = TYPE.FIX_SO_DIEN_THOAI
 // const type = TYPE.FIX_KHONG_NHAY_DONG
+const type = TYPE.FIX_SAN_PHAM;
 
 
 /* ------------------------------------------------------------------ */
@@ -173,9 +175,89 @@ const onStartFixPhoneNumber = () => {
 	onExportFile(data);
 }
 
+const fixSanPham = () => {
+
+	const pathFile = join(__dirname, 'files', 'data.xlsx');
+    // console.log(pathFile);
+
+	let excelData = [];
+
+	try {
+		excelData = xlsx.parse(pathFile);
+	} catch (err) {
+		console.log("Err read file:", err.code);
+		process.exit(1);
+	}
+
+	if (excelData.length == 0) {
+		console.log("File data không có dữ liệu!");
+		process.exit(1);
+	}
+
+	const sheetOneData = excelData[0].data; //Take just first sheet
+	// console.log('sheetOneData', sheetOneData[29347]);
+
+	let tempData = [];
+
+	const pushData = (row, i) => {
+		let mathang = row[8];
+		// for (const k in row) {
+		// 		console.log(k);
+		// 		console.log(row[k])
+		// 	}
+		for (let j = 1; j <= 10; j++) {
+			let index = Number(i) + Number(j);
+			if (!sheetOneData[index]) {
+				break;
+			}
+			// console.log(i)
+			// console.log(index)
+			const _row = sheetOneData[index];
+			// console.log(_row);
+			// console.log(_row.length);
+			if (_row.length == 0 || _row[0]) {
+				break;
+			}
+			// console.log(index)
+			// console.log(_row[1]);
+			
+				
+			mathang = mathang + " " + _row[8];
+		}
+		// console.log(mathang);
+		let tempRow = [];
+		const convertedRow = JSON.parse(JSON.stringify(row));
+		// console.log(convertedRow);
+		for (const k in convertedRow) {
+			if (k == 8) {
+				tempRow.push(mathang);
+				continue;
+			}
+			tempRow.push(convertedRow[k]);
+		}
+		// console.log(tempRow);
+		tempData.push(tempRow);
+	}
+
+	for (const i in sheetOneData) {
+		const row = sheetOneData[i];
+		if (row.length == 0 || !row[0]) {
+			continue;
+		}
+		// console.log(row);
+		pushData(row, i);
+	}
+
+	// console.log(tempData);
+
+    onExportFile(tempData);
+}
+
 
 if (type === TYPE.FIX_SO_DIEN_THOAI) {
 	onStartFixPhoneNumber();
 } else if (type === TYPE.FIX_SO_DIEN_THOAI) {
 	fixKhongNhayDong();
+} else if (type === TYPE.FIX_SAN_PHAM) {
+	fixSanPham();
 }
