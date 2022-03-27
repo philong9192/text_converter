@@ -13,6 +13,7 @@ const TYPE = {
 	FIX_KHONG_NHAY_DONG: 1, // Sửa lỗi toàn bộ dữ liệu trong 1 ô
 	FIX_SAN_PHAM: 2, //Sửa lỗi sản phẩm nhảy xuống các dòng trắng bên dưới
 	TAKE_PHONE_NUMBER: 3, //Lấy số điện thoại từ text
+	SPLIT_TEXT: 4, //Cắt chữ theo dấu -
 }
 
 /* ---------------------- NHAP DU LIEU TU DAY ---------------------- */
@@ -24,7 +25,8 @@ const __DATA = `
 //const type = TYPE.FIX_SO_DIEN_THOAI
 // const type = TYPE.FIX_KHONG_NHAY_DONG
 // const type = TYPE.FIX_SAN_PHAM;
-const type = TYPE.TAKE_PHONE_NUMBER;
+// const type = TYPE.TAKE_PHONE_NUMBER;
+const type = TYPE.SPLIT_TEXT;
 
 /* ------------------------------------------------------------------ */
 
@@ -255,6 +257,8 @@ const fixSanPham = () => {
     onExportFile(tempData);
 }
 
+import { splitText } from "./src/split_text.js";
+
 if (type === TYPE.FIX_SO_DIEN_THOAI) {
 	onStartFixPhoneNumber();
 } else if (type === TYPE.FIX_SO_DIEN_THOAI) {
@@ -263,4 +267,6 @@ if (type === TYPE.FIX_SO_DIEN_THOAI) {
 	fixSanPham();
 } else if (type === TYPE.TAKE_PHONE_NUMBER) {
 	takePhoneNumber();
+} else if (type === TYPE.SPLIT_TEXT) {
+	splitText();
 }
